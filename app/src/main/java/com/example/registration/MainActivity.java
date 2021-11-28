@@ -3,37 +3,26 @@ package com.example.registration;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,8 +35,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView4;
     ImageView imageView5;
     TextView TextView;
-
-    int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
         //입장하기 버튼 - 누르면 userID를 서버에 보내고 서버는 boolean값을 바꿔줌.
         EntranceButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 //결과 출력
@@ -189,46 +175,6 @@ public class MainActivity extends AppCompatActivity {
              }
         });
 
-
-/*              // 임의 수정값, 새로고침 버튼 누를때마다 5단계 순차적으로 보여줌
-                index += 1;
-                if (index > 4) {
-                    index = 0;
-                }
-                if (index == 0) {
-                    imageView.setVisibility(View.VISIBLE);
-                    imageView5.setVisibility(View.INVISIBLE);
-                    TextView.setText("[95명/100]");
-                    TextView.setTextColor(Color.parseColor("#ffcc0000"));
-
-                } else if (index == 1) {
-                    imageView2.setVisibility(View.VISIBLE);
-                    imageView.setVisibility(View.INVISIBLE);
-                    TextView.setText("[75명/100]");
-                    TextView.setTextColor(Color.parseColor("#ffff8800"));
-
-                } else if (index == 2) {
-                    imageView3.setVisibility(View.VISIBLE);
-                    imageView2.setVisibility(View.INVISIBLE);
-                    TextView.setText("[50명/100]");
-                    TextView.setTextColor(Color.parseColor("#ffffbb33"));
-
-                } else if (index == 3) {
-                    imageView4.setVisibility(View.VISIBLE);
-                    imageView3.setVisibility(View.INVISIBLE);
-                    TextView.setText("[35명/100]");
-                    TextView.setTextColor(Color.parseColor("#ff99cc00"));
-
-                } else if (index == 4) {
-                    imageView5.setVisibility(View.VISIBLE);
-                    imageView4.setVisibility(View.INVISIBLE);
-                    TextView.setText("[10명/100]");
-                    TextView.setTextColor(Color.parseColor("#ff669900"));
-
-                }
-            }
-        }); */
-
         //백그라운드 쓰레드를 이용한 데이터 파싱
 
        new BackgroundTask().execute();
@@ -280,9 +226,55 @@ public class MainActivity extends AppCompatActivity {
        {
             JSONObject object = jsonArray.getJSONObject(count);
             sum = object.getString("sum");
+            int percent = (10 - Integer.parseInt(sum))*10;
+            int temp = percent/20;
+            switch (temp) {
+               case 0:
+                   imageView.setVisibility(View.VISIBLE);
+                   imageView2.setVisibility(View.INVISIBLE);
+                   imageView3.setVisibility(View.INVISIBLE);
+                   imageView4.setVisibility(View.INVISIBLE);
+                   imageView5.setVisibility(View.INVISIBLE);
+                   TextView.setTextColor(Color.parseColor("#ffcc0000")); //빨강
+                   break;
+               case 1:
+                   imageView.setVisibility(View.INVISIBLE);
+                   imageView2.setVisibility(View.VISIBLE);
+                   imageView3.setVisibility(View.INVISIBLE);
+                   imageView4.setVisibility(View.INVISIBLE);
+                   imageView5.setVisibility(View.INVISIBLE);
+                   TextView.setTextColor(Color.parseColor("#ffff8800")); //주황
+                   break;
+               case 2:
+                   imageView.setVisibility(View.INVISIBLE);
+                   imageView2.setVisibility(View.INVISIBLE);
+                   imageView3.setVisibility(View.VISIBLE);
+                   imageView4.setVisibility(View.INVISIBLE);
+                   imageView5.setVisibility(View.INVISIBLE);
+                   TextView.setTextColor(Color.parseColor("#ffffbb33")); //노랑
+                   break;
+               case 3:
+                   imageView.setVisibility(View.INVISIBLE);
+                   imageView2.setVisibility(View.INVISIBLE);
+                   imageView3.setVisibility(View.INVISIBLE);
+                   imageView4.setVisibility(View.VISIBLE);
+                   imageView5.setVisibility(View.INVISIBLE);
+                   TextView.setTextColor(Color.parseColor("#ff99cc00")); //연두
+                   break;
+               case 4:
+                   imageView.setVisibility(View.INVISIBLE);
+                   imageView2.setVisibility(View.INVISIBLE);
+                   imageView3.setVisibility(View.INVISIBLE);
+                   imageView4.setVisibility(View.INVISIBLE);
+                   imageView5.setVisibility(View.VISIBLE);
+                   TextView.setTextColor(Color.parseColor("#ff669900")); //초록
+                   break;
+           }
+            TextView.setText("["+ sum + "명 / 10명] \n" +"최대 수용:"+ percent +"%");
 
-           TextView.setText(sum);
-           TextView.setTextColor(Color.parseColor("#ffcc0000"));
+            /* 오류뜸 (이유모름)
+            Congestion congestion = new Congestion(TextView, imageView, imageView2, imageView3, imageView4, imageView5, percent);
+            congestion.show();*/
            count++;
        }
 
