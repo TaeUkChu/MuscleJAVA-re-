@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -22,12 +24,15 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+
 public class LoginActivity extends AppCompatActivity {
+
 
     private Context mContext;
     private CheckBox cb_save;
     String id, pw;
     private AlertDialog dialog ; // 알림창
+    private Thread loginThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText idText = (EditText) findViewById(R.id.idText);
         final EditText passwordText = (EditText) findViewById(R.id.passwordText);
         final Button loginButton= (Button) findViewById(R.id.loginButton);
+        TextView registerButton = (TextView) findViewById(R.id.registerButton);
 
         cb_save = (CheckBox) findViewById(R.id.cb_save);
         mContext = this;
@@ -50,7 +56,26 @@ public class LoginActivity extends AppCompatActivity {
             cb_save.setChecked(true);
         }
 
-        TextView registerButton = (TextView) findViewById(R.id.registerButton);
+
+        loginThread = new Thread(){
+
+            @Override
+            public void run() {
+
+                if(idText != null && passwordText != null) {
+                    LoginActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(LoginActivity.this, "자동로그인완료", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                      Intent loginintent =new Intent(LoginActivity.this,MainActivity.class);
+                      startActivity(loginintent);
+                      finish();
+                }
+            }
+        };
+        loginThread.start();
+
         registerButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -68,7 +93,6 @@ public class LoginActivity extends AppCompatActivity {
                 final String userID = idText.getText().toString();
                 final String userPassword = passwordText.getText().toString();
 
-                Intent Loginintent = new Intent(LoginActivity.this, MainActivity.class);
                 //결과 출력
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
@@ -84,11 +108,11 @@ public class LoginActivity extends AppCompatActivity {
                                         .create();
                                 dialog.show();  //다이얼로그 실행
                                 //Intent로 메인액티비티로 넘겨줌
+                                Intent Loginintent = new Intent(LoginActivity.this, MainActivity.class);
                                 //(개별추가)
 
                                 PreferenceManager.setString(mContext,"id", idText.getText().toString());
                                 PreferenceManager.setString(mContext, "pw", passwordText.getText().toString());
-
 
                                 Loginintent.putExtra("userID",userID);
 
@@ -101,7 +125,6 @@ public class LoginActivity extends AppCompatActivity {
                                     Loginintent.putExtra("id",checkId);
                                     Loginintent.putExtra("pw",checkpw);
                                 }
-
                                 LoginActivity.this.startActivity(Loginintent);
                                 finish();
                             }
@@ -127,7 +150,6 @@ public class LoginActivity extends AppCompatActivity {
                 RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);  //큐에 담음
                 queue.add(loginRequest);
 
-
             }
 
         });
@@ -140,14 +162,16 @@ public class LoginActivity extends AppCompatActivity {
                     PreferenceManager.setString(mContext, "pw", passwordText.getText().toString());
                     PreferenceManager.setBoolean(mContext, "check", cb_save.isChecked());
                     Toast.makeText(LoginActivity.this, "로그인 정보 저장.", Toast.LENGTH_SHORT).show();
-
-                } else {
+                }
+                else {
                     Toast.makeText(LoginActivity.this, "로그인 정보 초기화.", Toast.LENGTH_SHORT).show();
                     PreferenceManager.setBoolean(mContext, "check", cb_save.isChecked());
                     PreferenceManager.clear(mContext);
                 }
             }
         });
+
+    }
 
     }
 
@@ -164,4 +188,4 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }*/
-}
+

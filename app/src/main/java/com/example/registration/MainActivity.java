@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -184,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
                 Intent Logoutintent = new Intent(MainActivity.this, LoginActivity.class);
                 MainActivity.this.startActivity(Logoutintent);
-
                 finish();
              }
         });
