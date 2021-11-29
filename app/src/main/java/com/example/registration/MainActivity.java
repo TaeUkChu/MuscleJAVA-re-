@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,6 +21,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,36 +32,23 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
 
     public static String userID;
-    public static String userperiod;
     private AlertDialog dialog; // 알림창
-    //태윤이형
-    ImageView imageView;
-    ImageView imageView2;
-    ImageView imageView3;
-    ImageView imageView4;
-    ImageView imageView5;
-    ImageView imageViewX;
-    TextView TextView;
-    Congestion congestion = new Congestion();;
+
+    ImageView [] imageViews = new ImageView[6];
+    Congestion congestion = new Congestion();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         userID = getIntent().getStringExtra("userID");
-        final Button EntranceButton = (Button) findViewById(R.id.EntranceButton);
-        final Button ExitButton = (Button) findViewById(R.id.ExitButton);
-        final Button RefactButton = (Button) findViewById(R.id.RefactButton);
-        final Button LogoutButton = (Button) findViewById(R.id.LogoutButton);
-        final Button PeriodButton = (Button) findViewById(R.id.PeriodButton);
-
-        imageView = (ImageView) findViewById(R.id.imageView);
-        imageView2 = (ImageView) findViewById(R.id.imageView2);
-        imageView3 = (ImageView) findViewById(R.id.imageView3);
-        imageView4 = (ImageView) findViewById(R.id.imageView4);
-        imageView5 = (ImageView) findViewById(R.id.imageView5);
-        imageViewX = (ImageView) findViewById(R.id.imageViewX);
-        TextView = (TextView) findViewById(R.id.numbertext);
+        final Button EntranceButton = findViewById(R.id.EntranceButton);
+        final Button ExitButton = findViewById(R.id.ExitButton);
+        final Button RefactButton = findViewById(R.id.RefactButton);
+        final Button LogoutButton = findViewById(R.id.LogoutButton);
+        final Button PeriodButton = findViewById(R.id.PeriodButton);
+        final Button CongestionButton = findViewById(R.id.CongestionButton);
+        final TextView textView= findViewById(R.id.numbertext);
 
         //입장하기 버튼 - 누르면 userID를 서버에 보내고 서버는 boolean값을 바꿔줌.
         EntranceButton.setOnClickListener(new View.OnClickListener() {
@@ -77,22 +65,11 @@ public class MainActivity extends AppCompatActivity {
                             boolean success = jsonResponse.getBoolean("success");
 
                             if (success) {  //입장이 성공했을 때
-                                TextView.setText("테스트");
-                                //Toast.makeText(MainActivity.this,"입장 완료",Toast.LENGTH_SHORT).show();
-                                //congestion.condition(Integer.parseInt(TextView.getText().toString())+1);
-                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                                dialog = builder.setMessage("입장에 성공했습니다.")
-                                        .setPositiveButton("확인", null)
-                                        .create();
-                                dialog.show();  //다이얼로그 실행
-                                //Intent로 메인액티비티로 넘겨줌
-                                /*Intent mainIntent = new Intent(MainActivity.this, MainActivity2.class);
-                                MainActivity.this.startActivity(mainIntent);*/
-                                //finish();
+                                Toast.makeText(MainActivity.this,"입장 완료",Toast.LENGTH_SHORT).show();
+                                congestion.condition(Integer.parseInt(textView.getText().toString()));
                             }
                             else{
-                                TextView.setText("테스트2");
-                                //Toast.makeText(MainActivity.this,"입장 실패",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this,"입장 실패",Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e)  //예외처리
                         {
@@ -120,21 +97,11 @@ public class MainActivity extends AppCompatActivity {
                             boolean success = jsonResponse.getBoolean("success");
                             if (success) {  //퇴장이 성공했을 때
 
-                                Toast.makeText(MainActivity.this,"성공",Toast.LENGTH_SHORT).show();
-                                //congestion.condition(Integer.parseInt(TextView.getText().toString())-1);
-                                /*AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                                dialog = builder.setMessage("퇴장에 성공했습니다.")
-                                        .setPositiveButton("확인", null)
-                                        .create();
-                                dialog.show();  //다이얼로그 실행
-
-                                //Intent로 메인액티비티로 넘겨줌
-                                Intent mainIntent = new Intent(MainActivity.this, MainActivity2.class);
-                                MainActivity.this.startActivity(mainIntent);*/
-                                //finish();
+                                Toast.makeText(MainActivity.this,"퇴장 성공",Toast.LENGTH_SHORT).show();
+                                congestion.condition(Integer.parseInt(textView.getText().toString()));
                             }
                             else{
-                                Toast.makeText(MainActivity.this,"실패",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this,"퇴장 실패",Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e)  //예외처리
                         {
@@ -155,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         RefactButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 imageView3.setVisibility(View.VISIBLE);
-                TextView.setText("바뀜");
+                textView.setText("바뀜");
             }});
             */
 
@@ -172,16 +139,13 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject object = jsonArray.getJSONObject(0);
                             String sum = object.getString("sum");
 
-                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                                dialog = builder.setMessage("새로고침 되었습니다.")
-                                        .setPositiveButton("확인", null)
-                                        .create();
-                                dialog.show();  //다이얼로그 실행
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                            dialog = builder.setMessage("새로고침 되었습니다.")
+                                    .setPositiveButton("확인", null)
+                                    .create();
+                            dialog.show();  //다이얼로그 실행
 
-                                TextView.setText(sum);
-                                TextView.setTextColor(Color.parseColor("#ffcc0000"));
-                                finish();
-
+                            congestion.condition(Integer.parseInt(sum));
 
                         } catch (Exception e)  //예외처리
                         {
@@ -196,75 +160,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         PeriodButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
+                //Intent로 메인액티비티로 넘겨줌
+                Intent Periodintent = new Intent(MainActivity.this, MainActivity2.class);
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try
-                        {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-                            if(success) {
-
-
-                                try{
-                                    JSONObject jsonObject = new JSONObject(response);
-                                    JSONArray jsonArray = jsonObject.getJSONArray("response");
-
-                                    int count = 0;
-
-                                    while(count < jsonArray.length())
-                                    {
-                                        JSONObject object = jsonArray.getJSONObject(count);
-                                        userperiod = object.getString("userperiod");
-                                        count++;
-                                    }
-
-                                    //Intent로 메인액티비티로 넘겨줌
-                                    Intent Periodintent = new Intent(MainActivity.this, MainActivity2.class);
-                                    //(개별추가)
-                                    Periodintent.putExtra("userID",userID);
-                                    Periodintent.putExtra("userPeriod", userperiod);
-                                    MainActivity.this.startActivity(Periodintent);
-                                    finish();
-
-                                }catch(Exception e)
-                                {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                            else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                                dialog = builder.setMessage("실패.")
-                                        .setNegativeButton("확인", null)
-                                        .create();
-                                dialog.show();
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-                PeriodRequest periodRequest = new PeriodRequest(userID, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-                queue.add(periodRequest);
-
-
+                Periodintent.putExtra("userID",userID);
+                MainActivity.this.startActivity(Periodintent);
+                finish();
             }
         });
-
-
-
-
 
         //로그 아웃 버튼
         LogoutButton.setOnClickListener(new View.OnClickListener() {
@@ -274,13 +180,12 @@ public class MainActivity extends AppCompatActivity {
                 Intent Logoutintent = new Intent(MainActivity.this, LoginActivity.class);
                 MainActivity.this.startActivity(Logoutintent);
                 finish();
-             }
+            }
         });
 
         //백그라운드 쓰레드를 이용한 데이터 파싱
-       new BackgroundTask().execute();
+        new BackgroundTask().execute();
     }
-
     class BackgroundTask extends AsyncTask<Void, Void, String>
     {
         String target;
@@ -310,29 +215,28 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
-            @Override
-            public void onProgressUpdate(Void... values) {
+        @Override
+        public void onProgressUpdate(Void... values) {
             super.onProgressUpdate();
-            }
+        }
 
         @Override
         public void onPostExecute(String result){
             try{
-            JSONObject jsonObject = new JSONObject(result);
-            JSONArray jsonArray = jsonObject.getJSONArray("response");
+                JSONObject jsonObject = new JSONObject(result);
+                JSONArray jsonArray = jsonObject.getJSONArray("response");
 
-            int count = 0;
-            String sum;
+                int count = 0;
+                String sum;
 
-         while(count < jsonArray.length())
-       {
-            JSONObject object = jsonArray.getJSONObject(count);
-            sum = object.getString("sum");
-            int percent = (10 - Integer.parseInt(sum))*10;
-            congestion.condition(percent);
-           count++;
-       }
-
+                while(count < jsonArray.length())
+                {
+                    JSONObject object = jsonArray.getJSONObject(count);
+                    sum = object.getString("sum");
+                    int IntSum = Integer.parseInt(sum);
+                    congestion.condition(IntSum);
+                    count++;
+                }
             }catch(Exception e)
             {
                 e.printStackTrace();
@@ -340,72 +244,49 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     class Congestion{
-       void condition(int percent){
-            int sum = 10 - percent/10;
-            int temp = percent/20;
+
+        void condition(int sum){
+            TextView TextView = findViewById(R.id.numbertext);
+            ImageView [] imageViews = {findViewById(R.id.imageView1),
+                    findViewById(R.id.imageView2),
+                    findViewById(R.id.imageView3),
+                    findViewById(R.id.imageView4),
+                    findViewById(R.id.imageView5),
+                    findViewById(R.id.imageViewX)};
+            int temp = (10 - sum)/2;
+            for (int i = 0; i<imageViews.length; i++){
+                imageViews[i].setVisibility(View.INVISIBLE);
+            }
             switch (temp) {
                 case 0:
-                    imageView.setVisibility(View.VISIBLE);
-                    imageView2.setVisibility(View.INVISIBLE);
-                    imageView3.setVisibility(View.INVISIBLE);
-                    imageView4.setVisibility(View.INVISIBLE);
-                    imageView5.setVisibility(View.INVISIBLE);
-                    imageViewX.setVisibility(View.INVISIBLE);
+                    imageViews[0].setVisibility(View.VISIBLE);
                     TextView.setTextColor(Color.parseColor("#ffcc0000")); //빨강
                     break;
                 case 1:
-                    imageView.setVisibility(View.INVISIBLE);
-                    imageView2.setVisibility(View.VISIBLE);
-                    imageView3.setVisibility(View.INVISIBLE);
-                    imageView4.setVisibility(View.INVISIBLE);
-                    imageView5.setVisibility(View.INVISIBLE);
-                    imageViewX.setVisibility(View.INVISIBLE);
+                    imageViews[1].setVisibility(View.VISIBLE);
                     TextView.setTextColor(Color.parseColor("#ffff8800")); //주황
                     break;
                 case 2:
-                    imageView.setVisibility(View.INVISIBLE);
-                    imageView2.setVisibility(View.INVISIBLE);
-                    imageView3.setVisibility(View.VISIBLE);
-                    imageView4.setVisibility(View.INVISIBLE);
-                    imageView5.setVisibility(View.INVISIBLE);
-                    imageViewX.setVisibility(View.INVISIBLE);
+                    imageViews[2].setVisibility(View.VISIBLE);
                     TextView.setTextColor(Color.parseColor("#ffffbb33")); //노랑
                     break;
                 case 3:
-                    imageView.setVisibility(View.INVISIBLE);
-                    imageView2.setVisibility(View.INVISIBLE);
-                    imageView3.setVisibility(View.INVISIBLE);
-                    imageView4.setVisibility(View.VISIBLE);
-                    imageView5.setVisibility(View.INVISIBLE);
-                    imageViewX.setVisibility(View.INVISIBLE);
+                    imageViews[3].setVisibility(View.VISIBLE);
                     TextView.setTextColor(Color.parseColor("#ff99cc00")); //연두
                     break;
                 case 4:
-                    imageView.setVisibility(View.INVISIBLE);
-                    imageView2.setVisibility(View.INVISIBLE);
-                    imageView3.setVisibility(View.INVISIBLE);
-                    imageView4.setVisibility(View.INVISIBLE);
-                    imageView5.setVisibility(View.VISIBLE);
-                    imageViewX.setVisibility(View.INVISIBLE);
+                    imageViews[4].setVisibility(View.VISIBLE);
                     TextView.setTextColor(Color.parseColor("#ff669900")); //초록
                     break;
                 case 5:
-                    imageView.setVisibility(View.INVISIBLE);
-                    imageView2.setVisibility(View.INVISIBLE);
-                    imageView3.setVisibility(View.INVISIBLE);
-                    imageView4.setVisibility(View.INVISIBLE);
-                    imageView5.setVisibility(View.INVISIBLE);
-                    imageViewX.setVisibility(View.VISIBLE);
-                    break;
-                default:
+                    imageViews[5].setVisibility(View.VISIBLE);
                     Toast.makeText(MainActivity.this,"오류 발생",Toast.LENGTH_SHORT).show();
+                    break;
+
             }
-            TextView.setText("["+ sum + "명 / 10명] \n" +"최대 수용:"+ percent +"%");
+            TextView.setText("["+ sum + "명 / 10명] \n" +"수용 가능:"+ (10-sum)*10 +"%");
 
         }
     }
-        }
+}

@@ -19,8 +19,12 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+
 public class RegisterActivity extends AppCompatActivity {
 
+    private ArrayAdapter adapter;
+    private Spinner spinner;
     private String userID;
     private String userPassword;
     private String userGender;
@@ -33,6 +37,10 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        spinner = (Spinner) findViewById(R.id.leftPeriodSpinner);
+        adapter = ArrayAdapter.createFromResource(this, R.array.leftPeriod, android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         //입력 칸 매칭 (xml파일과 자바파일을)
         final EditText idText = findViewById(R.id.idText);
