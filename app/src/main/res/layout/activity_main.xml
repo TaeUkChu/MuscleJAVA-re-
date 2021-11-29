@@ -36,42 +36,48 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="300dp">
+
+            <ImageView
+                android:id="@+id/imageViewX"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:srcCompat="@drawable/imagex" />
 
             <ImageView
                 android:id="@+id/imageView5"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="300dp"
                 app:srcCompat="@drawable/level5"
                 tools:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/imageView4"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="300dp"
                 app:srcCompat="@drawable/level4"
                 tools:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="300dp"
                 app:srcCompat="@drawable/level3"
                 tools:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="300dp"
                 app:srcCompat="@drawable/level2"
                 tools:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/level1" />
-
+                android:layout_height="300dp"
+                app:srcCompat="@drawable/level1"
+                tools:visibility="invisible" />
         </FrameLayout>
 
         <Button
@@ -80,7 +86,6 @@
             android:layout_height="wrap_content"
             android:text="새로 고침" />
 
-
         <TextView
             android:id="@+id/numbertext"
             android:layout_width="wrap_content"
@@ -88,9 +93,9 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="[95명/100]"
+            android:text="NULL"
             android:textColor="@android:color/holo_red_dark"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -98,29 +103,77 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:orientation="horizontal">
+        android:layout_weight="0"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/EntranceButton"
-            android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:layout_margin="15dp"
-            android:layout_weight="1"
-            android:text="입장"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/logoutbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:layout_margin="15dp"
+            <Button
+                android:id="@+id/EntranceButton"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_margin="15dp"
+                android:layout_weight="1"
+                android:text="입장"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                 />
+
+            <Button
+                android:id="@+id/ExitButton"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_margin="15dp"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="퇴장"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="로그아웃"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:background="#68E4D9"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/PeriodButton"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_margin="15dp"
+                android:text="잔여기간 확인"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/CongestionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_margin="15dp"
+                android:text="실시간 인원 확인"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/logoutbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_margin="15dp"
+        android:layout_weight="1"
+        android:text="로그아웃"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

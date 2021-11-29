@@ -14,7 +14,6 @@ public class EntranceRequest extends StringRequest{
             super(Method.POST, URL, listener, null);
             parameters = new HashMap<>();
             parameters.put("userID", userID);
-//            parameters.put("userEntrance", userEntrance);
         }
 
         @Override
