@@ -18,6 +18,7 @@ import org.json.JSONObject;
 public class MainActivity2 extends AppCompatActivity {
 
     public static String userID;
+    public static String userperiod;
     private AlertDialog dialog; // 알림창
 
     @Override
@@ -26,6 +27,7 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         userID = getIntent().getStringExtra("userID");
+        userperiod = getIntent().getStringExtra("userPeriod");
         final Button EntranceButton = (Button) findViewById(R.id.EntranceButton);
         final Button ExitButton = (Button) findViewById(R.id.ExitButton);
         final Button LogoutButton = (Button) findViewById(R.id.logoutbutton);

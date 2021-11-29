@@ -31,6 +31,7 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
 
     public static String userID;
+    public static String userperiod;
     private AlertDialog dialog; // 알림창
     //태윤이형
     ImageView imageView;
@@ -202,13 +203,62 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //Intent로 메인액티비티로 넘겨줌
-                Intent Periodintent = new Intent(MainActivity.this, MainActivity2.class);
-                //(개별추가)
-                Periodintent.putExtra("userID",userID);
-                MainActivity.this.startActivity(Periodintent);
-                finish();
-                //결과 출력
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try
+                        {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+                            if(success) {
+
+
+                                try{
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    JSONArray jsonArray = jsonObject.getJSONArray("response");
+
+                                    int count = 0;
+
+                                    while(count < jsonArray.length())
+                                    {
+                                        JSONObject object = jsonArray.getJSONObject(count);
+                                        userperiod = object.getString("userperiod");
+                                        count++;
+                                    }
+
+                                    //Intent로 메인액티비티로 넘겨줌
+                                    Intent Periodintent = new Intent(MainActivity.this, MainActivity2.class);
+                                    //(개별추가)
+                                    Periodintent.putExtra("userID",userID);
+                                    Periodintent.putExtra("userPeriod", userperiod);
+                                    MainActivity.this.startActivity(Periodintent);
+                                    finish();
+
+                                }catch(Exception e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                            else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                dialog = builder.setMessage("실패.")
+                                        .setNegativeButton("확인", null)
+                                        .create();
+                                dialog.show();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                PeriodRequest periodRequest = new PeriodRequest(userID, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                queue.add(periodRequest);
+
+
             }
         });
 
@@ -230,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
         //백그라운드 쓰레드를 이용한 데이터 파싱
        new BackgroundTask().execute();
     }
+
     class BackgroundTask extends AsyncTask<Void, Void, String>
     {
         String target;
@@ -288,6 +339,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
 
     class Congestion{
        void condition(int percent){
