@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
                             if (success) {  //퇴장이 성공했을 때
-                                congestion.condition(Integer.parseInt(TextView.getText().toString())-1);
+                                //congestion.condition(Integer.parseInt(TextView.getText().toString())-1);
                                 /*AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                                 dialog = builder.setMessage("퇴장에 성공했습니다.")
                                         .setPositiveButton("확인", null)
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                                 //Intent로 메인액티비티로 넘겨줌
                                 Intent mainIntent = new Intent(MainActivity.this, MainActivity2.class);
                                 MainActivity.this.startActivity(mainIntent);*/
-                                finish();
+                                //finish();
                             }
                             else{
                                 Toast.makeText(MainActivity.this,"실패",Toast.LENGTH_SHORT).show();
