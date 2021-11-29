@@ -76,7 +76,7 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="300"
+                android:layout_height="300dp"
                 app:srcCompat="@drawable/level1"
                 tools:visibility="invisible" />
         </FrameLayout>
