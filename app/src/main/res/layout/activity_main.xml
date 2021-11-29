@@ -39,13 +39,6 @@
             android:layout_height="300dp">
 
             <ImageView
-                android:id="@+id/imageViewX"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                app:srcCompat="@drawable/imagex"
-                tools:visibility="visible"/>
-
-            <ImageView
                 android:id="@+id/imageView5"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
@@ -74,11 +67,18 @@
                 tools:visibility="invisible" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageView1"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 app:srcCompat="@drawable/level1"
                 tools:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/imageViewX"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:srcCompat="@drawable/imagex"
+                tools:visibility="visible" />
         </FrameLayout>
 
         <Button
@@ -145,20 +145,21 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/PeriodButton"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_margin="15dp"
-                android:text="잔여기간 확인"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <Button
                 android:id="@+id/CongestionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_margin="15dp"
                 android:text="실시간 인원 확인"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:enabled="false"/>
+
+            <Button
+                android:id="@+id/PeriodButton"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_margin="15dp"
+                android:text="잔여기간 확인"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 

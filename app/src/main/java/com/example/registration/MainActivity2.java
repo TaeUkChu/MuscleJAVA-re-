@@ -29,6 +29,8 @@ public class MainActivity2 extends AppCompatActivity {
         final Button EntranceButton = (Button) findViewById(R.id.EntranceButton);
         final Button ExitButton = (Button) findViewById(R.id.ExitButton);
         final Button LogoutButton = (Button) findViewById(R.id.logoutbutton);
+        final Button PeriodButton2 = findViewById(R.id.PeriodButton2);
+        final Button CongestionButton2 = findViewById(R.id.CongestionButton2);
 
         //입장하기 버튼 - 누르면 userID를 서버에 보내고 서버는 boolean값을 바꿔줌.
         EntranceButton.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +89,7 @@ public class MainActivity2 extends AppCompatActivity {
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
                             if (success) {  //퇴장이 성공했을 때
+                                Toast.makeText(MainActivity2.this,"퇴장 완료",Toast.LENGTH_SHORT).show();
                                 //congestion.condition(Integer.parseInt(TextView.getText().toString())-1);
                                 /*AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                                 dialog = builder.setMessage("퇴장에 성공했습니다.")
@@ -115,8 +118,18 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
-        LogoutButton.setOnClickListener(new View.OnClickListener() {
+        CongestionButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Intent로 메인액티비티로 넘겨줌
+                Intent Congestionintent = new Intent(MainActivity2.this, MainActivity.class);
 
+                Congestionintent.putExtra("userID",userID);
+                MainActivity2.this.startActivity(Congestionintent);
+                finish();
+            }
+        });
+        LogoutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(MainActivity2.this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
                 Intent Logoutintent = new Intent(MainActivity2.this, LoginActivity.class);
