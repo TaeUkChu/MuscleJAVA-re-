@@ -35,23 +35,23 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         //입력 칸 매칭 (xml파일과 자바파일을)
-        final EditText idText = (EditText) findViewById(R.id.idText);
-        final EditText passwordText = (EditText) findViewById(R.id.passwordText);
-        final EditText emailText = (EditText) findViewById(R.id.emailText);
+        final EditText idText = findViewById(R.id.idText);
+        final EditText passwordText = findViewById(R.id.passwordText);
+        final EditText emailText = findViewById(R.id.emailText);
 
-        RadioGroup genderGroup = (RadioGroup) findViewById(R.id.genderGroup);
+        RadioGroup genderGroup = findViewById(R.id.genderGroup);
         int genderGroupID = genderGroup.getCheckedRadioButtonId();
         userGender = ((RadioButton) findViewById(genderGroupID)).getText().toString();
 
         genderGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioButton genderButton = (RadioButton) findViewById(i);
+                RadioButton genderButton = findViewById(i);
                 userGender = genderButton.getText().toString();
             }
         });
 
-        final Button validateButton = (Button) findViewById(R.id.validateButton);
+        final Button validateButton = findViewById(R.id.validateButton);
         validateButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

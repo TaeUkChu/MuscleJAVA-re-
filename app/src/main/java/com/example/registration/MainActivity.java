@@ -145,12 +145,14 @@ public class MainActivity extends AppCompatActivity {
         });
         //새로 고침 버튼을 이용한 데이터 요청 + 가져오기
 
-        /*//테스트 코드
+        /*
+        //테스트 코드
         RefactButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 imageView3.setVisibility(View.VISIBLE);
                 TextView.setText("바뀜");
-            }});*/
+            }});
+            */
 
         //에러발생
         RefactButton.setOnClickListener(new View.OnClickListener() {
@@ -262,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     class Congestion{
        void condition(int percent){
             int sum = 100 - percent;
