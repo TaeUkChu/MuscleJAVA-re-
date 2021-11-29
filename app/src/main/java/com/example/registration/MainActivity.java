@@ -39,14 +39,13 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView5;
     ImageView imageViewX;
     TextView TextView;
-    Congestion congestion = new Congestion();
+    Congestion congestion = new Congestion();;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         userID = getIntent().getStringExtra("userID");
-
         final Button EntranceButton = (Button) findViewById(R.id.EntranceButton);
         final Button ExitButton = (Button) findViewById(R.id.ExitButton);
         final Button RefactButton = (Button) findViewById(R.id.RefactButton);
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         EntranceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EntranceButton.setEnabled(false);
+                //EntranceButton.setEnabled(false);
                 ExitButton.setEnabled(true);
                 //결과 출력
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -76,15 +75,21 @@ public class MainActivity extends AppCompatActivity {
                             boolean success = jsonResponse.getBoolean("success");
 
                             if (success) {  //입장이 성공했을 때
-                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                                Toast.makeText(MainActivity.this,"입장 완료",Toast.LENGTH_SHORT).show();
+                                //congestion.condition(Integer.parseInt(TextView.getText().toString())+1);
+                                /*AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                                 dialog = builder.setMessage("입장에 성공했습니다.")
                                         .setPositiveButton("확인", null)
                                         .create();
                                 dialog.show();  //다이얼로그 실행
-                                /*//Intent로 메인액티비티로 넘겨줌
+                                //Intent로 메인액티비티로 넘겨줌
                                 Intent mainIntent = new Intent(MainActivity.this, MainActivity2.class);
                                 MainActivity.this.startActivity(mainIntent);*/
-                                finish();
+                                //finish();
+                            }
+                            else{
+                                Toast.makeText(MainActivity.this,"입장 실패",Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e)  //예외처리
                         {
@@ -96,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                 EntranceRequest EntranceRequest = new EntranceRequest(userID, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(MainActivity.this);  //큐에 담음
                 queue.add(EntranceRequest);
-                congestion.condition(Integer.parseInt(TextView.getText().toString())+1);
             }
         });
 
@@ -112,16 +116,20 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
                             if (success) {  //퇴장이 성공했을 때
-                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                congestion.condition(Integer.parseInt(TextView.getText().toString())-1);
+                                /*AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                                 dialog = builder.setMessage("퇴장에 성공했습니다.")
                                         .setPositiveButton("확인", null)
                                         .create();
                                 dialog.show();  //다이얼로그 실행
 
-                                /*//Intent로 메인액티비티로 넘겨줌
+                                //Intent로 메인액티비티로 넘겨줌
                                 Intent mainIntent = new Intent(MainActivity.this, MainActivity2.class);
                                 MainActivity.this.startActivity(mainIntent);*/
                                 finish();
+                            }
+                            else{
+                                Toast.makeText(MainActivity.this,"실패",Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e)  //예외처리
                         {
@@ -129,14 +137,22 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 };
-                // EntranceRequest 클래스의 queue 형태로 DB에 전달
+                // ExitRequest 클래스의 queue 형태로 DB에 전달
                 ExitRequest ExitRequest = new ExitRequest(userID, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(MainActivity.this);  //큐에 담음
                 queue.add(ExitRequest);
-                congestion.condition(Integer.parseInt(TextView.getText().toString())-1);
             }
         });
         //새로 고침 버튼을 이용한 데이터 요청 + 가져오기
+
+        /*//테스트 코드
+        RefactButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                imageView3.setVisibility(View.VISIBLE);
+                TextView.setText("바뀜");
+            }});*/
+
+        //에러발생
         RefactButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -149,9 +165,8 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject object = jsonArray.getJSONObject(0);
                             String sum = object.getString("sum");
 
-
                                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                                dialog = builder.setMessage("입장에 성공했습니다.")
+                                dialog = builder.setMessage("새로고침 되었습니다.")
                                         .setPositiveButton("확인", null)
                                         .create();
                                 dialog.show();  //다이얼로그 실행
@@ -175,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         //로그 아웃 버튼
         LogoutButton.setOnClickListener(new View.OnClickListener() {
 
@@ -188,7 +202,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //백그라운드 쓰레드를 이용한 데이터 파싱
-
        new BackgroundTask().execute();
     }
     class BackgroundTask extends AsyncTask<Void, Void, String>
@@ -250,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     class Congestion{
-        public void condition(int percent){
+       void condition(int percent){
             int sum = 100 - percent;
             int temp = percent/20;
             switch (temp) {
@@ -299,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
                     imageViewX.setVisibility(View.INVISIBLE);
                     TextView.setTextColor(Color.parseColor("#ff669900")); //초록
                     break;
-                default:
+                case 5:
                     imageView.setVisibility(View.INVISIBLE);
                     imageView2.setVisibility(View.INVISIBLE);
                     imageView3.setVisibility(View.INVISIBLE);
@@ -307,6 +320,8 @@ public class MainActivity extends AppCompatActivity {
                     imageView5.setVisibility(View.INVISIBLE);
                     imageViewX.setVisibility(View.VISIBLE);
                     break;
+                default:
+                    Toast.makeText(MainActivity.this,"오류 발생",Toast.LENGTH_SHORT).show();
             }
             TextView.setText("["+ sum + "명 / 10명] \n" +"최대 수용:"+ percent +"%");
 
