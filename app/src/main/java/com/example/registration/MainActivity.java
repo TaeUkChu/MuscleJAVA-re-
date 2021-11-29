@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static String userID;
     private AlertDialog dialog; // 알림창
-
+    //태윤이형
     ImageView imageView;
     ImageView imageView2;
     ImageView imageView3;
