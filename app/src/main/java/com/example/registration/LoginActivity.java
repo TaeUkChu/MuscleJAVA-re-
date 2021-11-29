@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             cb_save.setChecked(true);
         }
 
-/*
+/*      자동 로그인 쓰레드
         loginThread = new Thread(){
 
             @Override

@@ -81,22 +81,23 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/PeriodButton"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_margin="15dp"
-                android:text="잔여기간 확인"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/CongestionButton"
+                android:id="@+id/CongestionButton2"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_margin="15dp"
                 android:text="실시간 인원 확인"
                 android:textSize="20dp"
                 android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/PeriodButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_margin="15dp"
+                android:text="잔여기간 확인"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:enabled="false"/>
 
 
         </LinearLayout>
