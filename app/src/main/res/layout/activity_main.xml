@@ -76,7 +76,7 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="300"
                 app:srcCompat="@drawable/level1"
                 tools:visibility="invisible" />
         </FrameLayout>
@@ -168,7 +168,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/logoutbutton"
+        android:id="@+id/LogoutButton"
         android:layout_width="wrap_content"
         android:layout_height="70dp"
         android:layout_margin="15dp"

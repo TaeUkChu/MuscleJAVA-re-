@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         final Button EntranceButton = (Button) findViewById(R.id.EntranceButton);
         final Button ExitButton = (Button) findViewById(R.id.ExitButton);
         final Button RefactButton = (Button) findViewById(R.id.RefactButton);
-        final Button LogoutButton = (Button) findViewById(R.id.logoutbutton);
+        final Button LogoutButton = (Button) findViewById(R.id.LogoutButton);
+        final Button PeriodButton = (Button) findViewById(R.id.PeriodButton);
 
         imageView = (ImageView) findViewById(R.id.imageView);
         imageView2 = (ImageView) findViewById(R.id.imageView2);
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         EntranceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //EntranceButton.setEnabled(false);
+                EntranceButton.setEnabled(false);
                 ExitButton.setEnabled(true);
                 //결과 출력
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -190,6 +192,26 @@ public class MainActivity extends AppCompatActivity {
                 queue.add(EntranceSumRequest);
             }
         });
+
+
+
+        PeriodButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                //Intent로 메인액티비티로 넘겨줌
+                Intent Periodintent = new Intent(MainActivity.this, MainActivity2.class);
+                //(개별추가)
+                Periodintent.putExtra("userID",userID);
+                MainActivity.this.startActivity(Periodintent);
+                finish();
+                //결과 출력
+            }
+        });
+
+
+
 
 
         //로그 아웃 버튼
