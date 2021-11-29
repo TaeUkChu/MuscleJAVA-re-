@@ -63,33 +63,33 @@ public class MainActivity extends AppCompatActivity {
         EntranceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //EntranceButton.setEnabled(false);
+                EntranceButton.setEnabled(false);
                 ExitButton.setEnabled(true);
                 //결과 출력
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {   //해당 결과 받아옴
-
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
 
                             if (success) {  //입장이 성공했을 때
-
-                                Toast.makeText(MainActivity.this,"입장 완료",Toast.LENGTH_SHORT).show();
+                                TextView.setText("테스트");
+                                //Toast.makeText(MainActivity.this,"입장 완료",Toast.LENGTH_SHORT).show();
                                 //congestion.condition(Integer.parseInt(TextView.getText().toString())+1);
-                                /*AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                                 dialog = builder.setMessage("입장에 성공했습니다.")
                                         .setPositiveButton("확인", null)
                                         .create();
                                 dialog.show();  //다이얼로그 실행
                                 //Intent로 메인액티비티로 넘겨줌
-                                Intent mainIntent = new Intent(MainActivity.this, MainActivity2.class);
+                                /*Intent mainIntent = new Intent(MainActivity.this, MainActivity2.class);
                                 MainActivity.this.startActivity(mainIntent);*/
                                 //finish();
                             }
                             else{
-                                Toast.makeText(MainActivity.this,"입장 실패",Toast.LENGTH_SHORT).show();
+                                TextView.setText("테스트2");
+                                //Toast.makeText(MainActivity.this,"입장 실패",Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e)  //예외처리
                         {
@@ -116,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
                             if (success) {  //퇴장이 성공했을 때
+
+                                Toast.makeText(MainActivity.this,"성공",Toast.LENGTH_SHORT).show();
                                 //congestion.condition(Integer.parseInt(TextView.getText().toString())-1);
                                 /*AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                                 dialog = builder.setMessage("퇴장에 성공했습니다.")
@@ -267,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
 
     class Congestion{
        void condition(int percent){
-            int sum = 100 - percent;
+            int sum = 10 - percent/10;
             int temp = percent/20;
             switch (temp) {
                 case 0:

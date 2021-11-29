@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             cb_save.setChecked(true);
         }
 
-
+/*
         loginThread = new Thread(){
 
             @Override
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
         loginThread.start();
-
+*/
         registerButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

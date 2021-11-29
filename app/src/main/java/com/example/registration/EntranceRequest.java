@@ -4,7 +4,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
-//Hello
+
 public class EntranceRequest extends StringRequest{
 
     final static private String URL = "http://musclejava.cafe24.com/UserEntrance.php";
