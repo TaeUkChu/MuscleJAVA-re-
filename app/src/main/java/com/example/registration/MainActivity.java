@@ -32,9 +32,10 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
 
     public static String userID;
+    public static String userperiod;
     private AlertDialog dialog; // 알림창
 
-    ImageView [] imageViews = new ImageView[6];
+    ImageView [] imageViews = new ImageView[5];
     Congestion congestion = new Congestion();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,12 +164,47 @@ public class MainActivity extends AppCompatActivity {
         PeriodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent로 메인액티비티로 넘겨줌
-                Intent Periodintent = new Intent(MainActivity.this, MainActivity2.class);
+                /*
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
 
-                Periodintent.putExtra("userID",userID);
-                MainActivity.this.startActivity(Periodintent);
-                finish();
+                        JSONObject jsonResponse = new JSONObject(response);
+                        boolean success = jsonResponse.getBoolean("success");
+                        if (success) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray jsonArray = jsonObject.getJSONArray("response");
+
+                                int count = 0;
+
+                                while (count < jsonArray.length()) {
+                                    JSONObject object = jsonArray.getJSONObject(count);
+                                    userperiod = object.getString("userperiod");
+                                    count++;
+                                }
+                                //Intent로 메인액티비티로 넘겨줌
+                                Intent Periodintent = new Intent(MainActivity.this, MainActivity2.class);
+                                //(개별추가)
+                                Periodintent.putExtra("userID", userID);
+                                Periodintent.putExtra("userPeriod", userperiod);
+                                MainActivity.this.startActivity(Periodintent);
+                                finish();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                            dialog = builder.setMessage("실패.")
+                                    .setNegativeButton("확인", null)
+                                    .create();
+                            dialog.show();
+                        }
+                    }
+                };
+                PeriodRequest periodRequest = new PeriodRequest(userID, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                queue.add(periodRequest);*/
             }
         });
 
@@ -245,47 +281,50 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class Congestion{
-
         void condition(int sum){
             TextView TextView = findViewById(R.id.numbertext);
             ImageView [] imageViews = {findViewById(R.id.imageView1),
                     findViewById(R.id.imageView2),
                     findViewById(R.id.imageView3),
                     findViewById(R.id.imageView4),
-                    findViewById(R.id.imageView5),
-                    findViewById(R.id.imageViewX)};
-            int temp = (10 - sum)/2;
+                    findViewById(R.id.imageViewX)
+            };
+            //20이 최대치
+            int temp = (20 - sum) / 5;
             for (int i = 0; i<imageViews.length; i++){
                 imageViews[i].setVisibility(View.INVISIBLE);
             }
+
             switch (temp) {
-                case 0:
+                case 0:   //실제 인원: 16~20
                     imageViews[0].setVisibility(View.VISIBLE);
                     TextView.setTextColor(Color.parseColor("#ffcc0000")); //빨강
                     break;
-                case 1:
+                case 1:   //11~15
                     imageViews[1].setVisibility(View.VISIBLE);
+                    TextView.setTextColor(Color.parseColor("#ffcc0000")); //빨강
+                    break;
+                case 2:   //6~10
+                    imageViews[2].setVisibility(View.VISIBLE);
                     TextView.setTextColor(Color.parseColor("#ffff8800")); //주황
                     break;
-                case 2:
-                    imageViews[2].setVisibility(View.VISIBLE);
+                case 3:   //1~5
+                    imageViews[3].setVisibility(View.VISIBLE);
                     TextView.setTextColor(Color.parseColor("#ffffbb33")); //노랑
                     break;
-                case 3:
+                case 4: // 0
                     imageViews[3].setVisibility(View.VISIBLE);
-                    TextView.setTextColor(Color.parseColor("#ff99cc00")); //연두
-                    break;
-                case 4:
-                    imageViews[4].setVisibility(View.VISIBLE);
                     TextView.setTextColor(Color.parseColor("#ff669900")); //초록
                     break;
-                case 5:
-                    imageViews[5].setVisibility(View.VISIBLE);
+                default:
+                    imageViews[4].setVisibility(View.VISIBLE);
                     Toast.makeText(MainActivity.this,"오류 발생",Toast.LENGTH_SHORT).show();
                     break;
-
+                    //TextView.setTextColor(Color.parseColor("#ffffbb33")); //노랑
+                    //TextView.setTextColor(Color.parseColor("#ff99cc00")); //연두
+                    //Value:	#ff33b5e5 // 파랑
             }
-            TextView.setText("["+ sum + "명 / 10명] \n" +"수용 가능:"+ (10-sum)*10 +"%");
+            TextView.setText("["+ sum + "명 / 10명] \n" +"수용 가능:"+ (20-sum)*5 +"%");
 
         }
     }
